@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — кадр потерялся · Айтуган Каипов</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/fonts/fonts2.css">
+  <style>
+    :root { --bg: #19191b; --ink: #ece9e2; --mute: #8b8a86; --accent: #c8ff3d; }
+    * { box-sizing: border-box; margin: 0; }
+    html, body { height: 100%; }
+    body { background: var(--bg); color: var(--ink); font-family: "Inter", system-ui, sans-serif; overflow: hidden; }
+    canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+    .box { position: fixed; left: 0; right: 0; bottom: 12vh; text-align: center; padding: 0 16px; }
+    p { color: var(--mute); font: 13px "JetBrains Mono", monospace; letter-spacing: .02em; }
+    a { display: inline-flex; margin-top: 20px; height: 50px; padding: 0 24px; align-items: center; border-radius: 99px; background: var(--accent); color: #111;
+        font-weight: 600; text-decoration: none; box-shadow: 4px 4px 0 #000; transition: transform .12s, box-shadow .12s; }
+    a:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 #000; }
+  </style>
+</head>
+<body>
+  <canvas aria-label="404"></canvas>
+  <div class="box">
+    <p>// этот кадр вырезали при монтаже — страницы нет</p>
+    <a href="/">← на главную</a>
+  </div>
+  <script>
+    /* «404» собирается из символов и разлетается от курсора — как имя на главной */
+    (() => {
+      const cv = document.querySelector("canvas"), ctx = cv.getContext("2d");
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const CH = "404#*+<>/=АБВГДЕЖЗИКЛМНОПРСТ0123456789▓▒░";
+      let W, H, parts = [], mouse = { x: -1e4, y: -1e4 }, t0 = performance.now();
+      function build() {
+        const dpr = Math.min(devicePixelRatio, 2); W = innerWidth; H = innerHeight;
+        cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const o = document.createElement("canvas"); o.width = W; o.height = H; const c = o.getContext("2d");
+        const fs = Math.min(W * 0.42, H * 0.55);
+        c.font = `800 ${fs}px Montserrat, sans-serif`; c.textAlign = "center"; c.textBaseline = "middle"; c.fillStyle = "#fff";
+        c.fillText("404", W / 2, H * 0.42);
+        const d = c.getImageData(0, 0, W, H).data, S = W < 600 ? 6 : 9; parts = [];
+        for (let y = 0; y < H; y += S) for (let x = 0; x < W; x += S) if (d[(y * W + x) * 4 + 3] > 128)
+          parts.push({ tx: x, ty: y, x: reduce ? x : Math.random() * W, y: reduce ? y : Math.random() * H, vx: 0, vy: 0, s: S,
+            ch: CH[(Math.random() * CH.length) | 0], acc: Math.random() < 0.08 });
+      }
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.textBaseline = "top";
+        for (const p of parts) {
+          if (!reduce) {
+            p.vx += (p.tx - p.x) * 0.05; p.vy += (p.ty - p.y) * 0.05; p.vx *= 0.8; p.vy *= 0.8;
+            const dx = p.x - mouse.x, dy = p.y - mouse.y, dd = dx * dx + dy * dy, R = 90;
+            if (dd < R * R) { const l = Math.sqrt(dd) || 1, f = (1 - l / R) * 6; p.vx += dx / l * f; p.vy += dy / l * f; }
+            p.x += p.vx; p.y += p.vy;
+            if (Math.random() < 0.004) p.ch = CH[(Math.random() * CH.length) | 0];
+          }
+          ctx.font = `600 ${p.s + 2}px "JetBrains Mono", monospace`;
+          ctx.fillStyle = p.acc ? "#c8ff3d" : "#ece9e2"; ctx.fillText(p.ch, p.x, p.y);
+        }
+        requestAnimationFrame(frame);
+      }
+      addEventListener("pointermove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+      addEventListener("resize", build);
+      (document.fonts ? document.fonts.load("800 100px Montserrat") : Promise.resolve()).catch(() => {}).then(() => { build(); frame(); });
+    })();
+  </script>
+</body>
+</html>

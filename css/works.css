@@ -1,0 +1,123 @@
+/* Этап 2: работы — папки, кольцо карточек, консоль-просмотрщик */
+.works { position: relative; padding: 96px 0 70px; overflow: hidden; border-top: 1px solid var(--line); }
+.works__bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.works > *:not(.works__bg) { position: relative; z-index: 1; }
+.works__head { display: flex; align-items: flex-end; gap: 18px; padding: 0 var(--pad); flex-wrap: wrap; }
+.works__title { font-family: var(--display); font-weight: var(--display-w); letter-spacing: var(--display-track); font-size: clamp(48px, 8vw, 120px); line-height: .9; text-transform: uppercase; }
+.works__title sup { font-size: 14px; vertical-align: top; letter-spacing: 0; text-transform: none; color: var(--accent-ink); }
+.works__script { font-family: var(--script); font-size: clamp(34px, 4.5vw, 64px); transform: rotate(-6deg) translateY(-.25em); line-height: 1; color: var(--accent-ink); }
+
+/* Папки-разделы (из варианта Б, скруглённые под А) */
+.folders { display: flex; gap: 14px; flex-wrap: wrap; margin-left: auto; padding-top: 16px; }
+.folder {
+  position: relative; width: 150px; height: 92px; padding: 32px 14px 10px; text-align: left;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: var(--bg-2); border: 1.5px solid var(--ink); border-radius: 0 12px 12px 12px;
+  box-shadow: 3px 3px 0 var(--shadow); transition: transform .2s, background-color .3s, color .3s;
+}
+.folder__tab { position: absolute; left: -1.5px; top: -14px; width: 62px; height: 14px; background: inherit; border: 1.5px solid var(--ink); border-bottom: 0; border-radius: 8px 8px 0 0; }
+.folder b { font-family: var(--display); font-weight: var(--display-w); font-size: 15px; letter-spacing: -.01em; }
+.folder span { color: var(--mute); }
+.folder:hover { transform: translateY(-4px); }
+.folder.is-active { background: var(--accent); color: var(--on-accent); }
+.folder.is-active span { color: inherit; opacity: .75; }
+[data-theme="dark"] .folder, [data-theme="dark"] .folder__tab { border-color: #4a4a50; }
+
+/* Кольцо карточек: бесконечное, дуга наружу */
+.ring { --ch: clamp(320px, calc(100svh - 430px), 520px); --cw: calc(var(--ch) * .5625); position: relative; height: calc(var(--ch) + 60px); margin-top: 18px; perspective: 1500px; touch-action: pan-y; cursor: grab; outline: none; user-select: none; }
+.ring.is-drag { cursor: grabbing; }
+.ring__stage { position: absolute; left: 50%; top: 24px; width: 0; height: 0; transform-style: preserve-3d; }
+.wcard {
+  position: absolute; left: calc(var(--cw) / -2); top: 0; width: var(--cw); height: var(--ch);
+  border-radius: 20px; overflow: hidden; background: #000;
+  box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .7); will-change: transform;
+}
+.wcard__dim { position: absolute; inset: 0; z-index: 4; background: #000; opacity: 0; pointer-events: none; }
+.wcard img, .wcard video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.wcard video { opacity: 0; transition: opacity .35s; }
+.wcard.is-on video.is-ready { opacity: 1; }
+.wcard__num { position: absolute; left: 12px; top: 12px; z-index: 2; font: 600 11px var(--mono); color: #fff; padding: 4px 9px; border-radius: 99px; background: rgba(10, 10, 10, .55); backdrop-filter: blur(6px); }
+.wcard__play {
+  position: absolute; right: 14px; bottom: 14px; z-index: 2; width: 52px; height: 52px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--accent); color: var(--on-accent); font-size: 16px;
+  transform: scale(0); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1);
+}
+.wcard.is-on .wcard__play { transform: scale(1); }
+.wcard__ai { position: absolute; left: 12px; bottom: 14px; z-index: 2; }
+
+.ai-badge { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; font: 600 10px var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--accent-ink); }
+.ai-badge[hidden] { display: none; }
+.wcard .ai-badge { margin: 0; color: #fff; border-color: rgba(255, 255, 255, .5); background: rgba(10, 10, 10, .45); backdrop-filter: blur(6px); }
+
+.works__cap { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 0 var(--pad); }
+.works__info { text-align: center; min-width: 0; width: min(560px, 100%); }
+.works__info .mono { color: var(--mute); }
+.works__info .mono b { color: var(--accent-ink); font-size: 15px; }
+.works__name { margin-top: 8px; font-family: var(--display); font-weight: var(--display-w); letter-spacing: var(--display-track); font-size: clamp(22px, 2.6vw, 36px); line-height: 1.05; }
+.btn--icon { width: 50px; height: 50px; padding: 0; justify-content: center; font-size: 18px; flex: none; }
+.works__hint { text-align: center; color: var(--mute); margin-top: 16px; }
+
+/* Консоль-просмотрщик (из варианта Б) */
+/* Размытие страницы за консолью — фильтром на самой странице, а не backdrop-filter на консоли:
+   backdrop-filter под играющим видео в Chrome давал рывки и остановки ролика (~3-я секунда), вид тот же */
+.viewer { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 20px; background: rgba(15, 15, 17, .9); }
+body.viewer-open > main, body.viewer-open > .nav { filter: blur(10px); }
+[data-theme="light"] .viewer { background: rgba(236, 235, 230, .92); }
+.viewer[hidden] { display: none; }
+.viewer__inner { display: flex; align-items: center; gap: clamp(24px, 5vw, 70px); max-width: 1100px; width: 100%; justify-content: center; }
+.device {
+  flex: none; width: min(400px, calc((100svh - 60px) * .48)); padding: 16px 18px 20px; border-radius: 30px 30px 74px 30px;
+  background: linear-gradient(160deg, #3a3a40, #222226 45%, #18181b); color: #d9d9de;
+  box-shadow: inset 0 2px 1px rgba(255, 255, 255, .14), inset 0 -4px 8px rgba(0, 0, 0, .5), 0 40px 100px -30px rgba(0, 0, 0, .8);
+}
+.device__top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; letter-spacing: .1em; margin-bottom: 12px; padding: 0 4px; }
+.device__led { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.device__screen { position: relative; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 0 0 7px #0d0d0f, inset 0 0 30px rgba(0, 0, 0, .8); transform-origin: center; }
+.device__video { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+.device__crt { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .22) 0 1px, transparent 1px 3px), radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, .55) 100%); mix-blend-mode: multiply; animation: flicker 3s infinite; }
+@keyframes flicker { 0%, 100% { opacity: .9; } 48% { opacity: 1; } 50% { opacity: .82; } 52% { opacity: 1; } }
+.device__osd { position: absolute; left: 0; right: 0; top: 0; display: flex; justify-content: space-between; padding: 10px 12px; font-size: 13px; color: #fff; text-shadow: 1px 1px 0 #000; }
+.device__bar { position: absolute; left: 12px; right: 12px; bottom: 12px; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, .22); }
+.device__bar i { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--accent); }
+.device__pad { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding: 0 8px; }
+.dpad { position: relative; width: 104px; height: 104px; }
+.dpad button, .dpad i { position: absolute; background: #0f0f11; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, .6), 0 1px 0 rgba(255, 255, 255, .08); }
+.dpad button:nth-child(1), .dpad button:nth-child(4) { left: 35px; width: 34px; height: 36px; }
+.dpad button:nth-child(1) { top: 0; border-radius: 6px 6px 0 0; }
+.dpad button:nth-child(4) { bottom: 0; border-radius: 0 0 6px 6px; }
+.dpad button:nth-child(2), .dpad button:nth-child(3) { top: 35px; width: 36px; height: 34px; }
+.dpad button:nth-child(2) { left: 0; border-radius: 6px 0 0 6px; }
+.dpad button:nth-child(3) { right: 0; border-radius: 0 6px 6px 0; }
+.dpad i { left: 35px; top: 35px; width: 34px; height: 34px; box-shadow: none; }
+.dpad button:active, .ab button:active { transform: translateY(2px); box-shadow: none; }
+.ab { display: flex; gap: 16px; transform: rotate(-22deg); }
+.ab button { width: 52px; height: 52px; border-radius: 50%; font-size: 17px; color: #d9d9de; background: #0f0f11; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .6), 0 1px 0 rgba(255, 255, 255, .08); }
+.ab .ab__a { background: var(--accent); color: var(--on-accent); margin-top: -26px; }
+.device__legend { display: flex; justify-content: space-between; margin-top: 18px; font-size: 12px; opacity: .65; padding: 0 6px; }
+.viewer__info { width: min(360px, 100%); }
+.viewer__meta { color: var(--mute); }
+.viewer__title { margin-top: 12px; font-family: var(--display); font-weight: var(--display-w); letter-spacing: var(--display-track); font-size: clamp(26px, 3vw, 40px); line-height: 1.02; }
+.viewer__about { margin-top: 14px; line-height: 1.55; color: var(--mute); }
+[data-theme="dark"] .viewer__about { color: #c9c6bf; }
+.viewer__tools { margin-top: 14px; color: var(--mute); }
+.viewer__nav { display: flex; gap: 12px; margin-top: 26px; }
+.viewer__close { position: fixed; top: 16px; right: var(--pad); height: 40px; padding: 0 16px; }
+
+@media (max-width: 860px) {
+  .works { padding-top: 80px; }
+  .works__head { flex-wrap: wrap; }
+  .folders { gap: 10px; padding-top: 28px; margin-left: 0; width: 100%; }
+  .folder { width: calc(33.333% - 7px); min-width: 0; height: 80px; padding: 28px 10px 8px; }
+  .folder b { font-size: 13px; }
+  .ring { --ch: 356px; --cw: 200px; perspective: 900px; }
+  .works__cap { gap: 12px; }
+  .works__hint { padding: 0 var(--pad); }
+  .viewer { place-items: start center; overflow-y: auto; padding: 64px 16px 30px; }
+  .viewer__inner { flex-direction: column; gap: 22px; }
+  .device { width: min(340px, 100%); }
+}
+@media (prefers-reduced-motion: reduce) { .device__crt { animation: none; } }
+
+/* Во весь экран (кнопка A): ролик целиком в своих пропорциях 9:16, по бокам чёрные поля */
+.device__video:fullscreen { object-fit: contain; background: #000; }
+.device__video:-webkit-full-screen { object-fit: contain; background: #000; }

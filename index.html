@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ru" data-theme="dark" data-font="16">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Айтуган Каипов — моушн-дизайнер</title>
+  <meta name="description" content="Моушн-дизайнер из Уфы. Ролики, ИИ-видео, анимация кодом и сайты — вместе с ИИ.">
+  <meta name="theme-color" content="#19191b">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <!-- Превью ссылки в Telegram / Instagram / Behance. Если поменяете адрес сайта — поменяйте его и здесь (2 места) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Айтуган Каипов">
+  <meta property="og:title" content="Айтуган Каипов — моушн-дизайнер">
+  <meta property="og:description" content="Ролики, которые досматривают. Моушн, ИИ-видео, анимация кодом и сайты — вместе с ИИ.">
+  <meta property="og:image" content="https://aytugankaipov.github.io/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://aytugankaipov.github.io/">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="fonts/fonts2.css">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/works.css">
+  <link rel="stylesheet" href="css/cases.css">
+  <link rel="stylesheet" href="css/about.css">
+</head>
+<body class="is-loading">
+  <!-- Загрузка: счётчик 000 → 100 -->
+  <div class="loader" aria-hidden="true">
+    <span class="loader__label mono" data-i18n="loading">загрузка портфолио</span>
+    <span class="loader__num px">000</span>
+    <span class="loader__bar"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a href="#top" class="nav__logo"><span class="nav__mark">АК</span></a>
+    <nav class="nav__links mono">
+      <a href="#works" data-i18n="nav.works">работы</a>
+      <a href="#cases" data-i18n="nav.cases">кейсы</a>
+      <a href="#about" data-i18n="nav.about">обо мне</a>
+      <a href="#contact" data-i18n="nav.contact">контакты</a>
+    </nav>
+    <div class="nav__tools">
+      <button class="pill mono js-sound" type="button" aria-pressed="false" aria-label="Звук"><i class="snd"><i></i><i></i><i></i></i><span data-i18n="snd.off">звук</span></button>
+      <button class="pill mono js-lang" type="button" aria-label="Язык / Language">RU</button>
+      <button class="pill mono js-theme" type="button" aria-label="Сменить тему"><i class="pill__dot"></i><span data-i18n="theme.dark">тёмная</span></button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Первый экран: имя из символов + бейдж на ленте -->
+    <section class="hero">
+      <canvas class="hero__ring" aria-hidden="true"></canvas>
+      <div class="hero__me" aria-hidden="true"><img src="assets/me-cut.png" alt="" draggable="false"><i class="hero__me-dots"></i></div>
+      <canvas class="hero__badge" aria-hidden="true"></canvas>
+
+      <div class="hero__text">
+        <p class="hero__kicker mono">[ <span data-i18n="kicker.role">моушн-дизайнер</span> · <span data-i18n="kicker.city">уфа</span> · <span data-i18n="kicker.since">с 2021</span> ]</p>
+        <h1 class="hero__name">
+          <span class="sr js-name-text">Айтуган Каипов</span>
+          <canvas class="hero__glyphs" aria-hidden="true"></canvas>
+        </h1>
+        <p class="hero__lead js-lead"></p>
+        <div class="hero__actions">
+          <a href="#works" class="btn btn--solid" data-i18n="btn.works">Смотреть работы ↓</a>
+          <button class="btn js-reel" type="button" data-i18n="btn.reel">▶ Шоурил</button>
+        </div>
+      </div>
+
+      <p class="badge-tip mono" aria-hidden="true"><span class="badge-tip__ico">↻</span><span data-i18n="tip">нажми или потяни</span></p>
+      <div class="hero__foot mono">
+        <span><i class="dot"></i> <span data-i18n="open">открыт к проектам</span></span>
+        <span data-i18n="scroll">листай ↓</span>
+      </div>
+    </section>
+
+    <!-- Дальше — следующие этапы -->
+    <!-- Работы: папки-разделы + кольцо карточек; просмотр — в консоли -->
+    <section class="works" id="works">
+      <canvas class="works__bg" aria-hidden="true"></canvas>
+      <div class="works__head">
+        <h2 class="works__title"><span data-i18n="works.title">Работы</span> <sup class="mono js-count"></sup></h2>
+        <p class="works__script" aria-hidden="true">portfolio</p>
+        <div class="folders" role="tablist" aria-label="Разделы">
+          <button class="folder is-active" data-filter="all" role="tab"><i class="folder__tab"></i><b data-i18n="f.all">Все</b><span class="mono js-fc" data-f="all"></span></button>
+          <button class="folder" data-filter="Код + ИИ" role="tab"><i class="folder__tab"></i><b data-i18n="f.code">Код + ИИ</b><span class="mono js-fc" data-f="Код + ИИ"></span></button>
+          <button class="folder" data-filter="ИИ-видео" role="tab"><i class="folder__tab"></i><b data-i18n="f.ai">ИИ-видео</b><span class="mono js-fc" data-f="ИИ-видео"></span></button>
+        </div>
+      </div>
+      <div class="ring" tabindex="0" aria-label="Лента работ: листайте стрелками, Enter — смотреть">
+        <div class="ring__stage"></div>
+      </div>
+      <div class="works__cap">
+        <button class="btn btn--icon js-prev" type="button" aria-label="Предыдущая">←</button>
+        <div class="works__info">
+          <p class="mono"><b class="js-pos">01</b> / <span class="js-total">08</span> · <span class="js-tag"></span><span class="ai-badge js-ai" hidden data-i18n="ai">ИИ-генерация</span></p>
+          <h3 class="works__name js-name"></h3>
+        </div>
+        <button class="btn btn--icon js-next" type="button" aria-label="Следующая">→</button>
+      </div>
+      <p class="works__hint mono" data-i18n="works.hint">тяни ленту · нажми на карточку — откроется в консоли</p>
+    </section>
+
+    <!-- Кейсы: «технические листы» (реф. b1–b7, 22) -->
+    <section class="cases" id="cases">
+      <div class="cases__head">
+        <h2 class="cases__title"><span data-i18n="cases.title">Кейсы</span></h2>
+        <p class="works__script" aria-hidden="true">process</p>
+        <div class="cases__tabs" role="tablist" aria-label="Кейсы"></div>
+      </div>
+      <article class="sheet" aria-live="polite"></article>
+    </section>
+    <!-- Обо мне: фото, текст, картриджи-опыт, клавиатура-инструменты, услуги -->
+    <section class="about" id="about">
+      <div class="about__head">
+        <h2 class="about__title" data-i18n="about.title">Обо мне</h2>
+        <p class="works__script" aria-hidden="true">hello</p>
+      </div>
+      <div class="about__grid">
+        <figure class="photo">
+          <div class="photo__frame"><canvas class="photo__cv" aria-hidden="true"></canvas><span class="photo__ph mono" data-i18n="photo.soon">фото скоро</span></div>
+          <figcaption class="mono"><span class="js-name-plain"></span> · <span data-i18n="kicker.city">уфа</span></figcaption>
+        </figure>
+        <div class="about__text">
+          <p class="about__lead js-about"></p>
+          <div class="facts">
+            <div class="fact"><b class="js-count" data-to="2021" data-from="2000">2021</b><span class="mono" data-i18n="fact.since">в моушне с</span></div>
+            <div class="fact"><b class="js-count" data-to="0" data-from="0" data-works>0</b><span class="mono" data-i18n="fact.works">работ на сайте</span></div>
+            <div class="fact"><b class="js-count" data-to="0" data-from="0" data-tools>0</b><span class="mono" data-i18n="fact.tools">инструментов</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about__row">
+        <div class="carts">
+          <h3 class="block-k mono"><i>01</i><span data-i18n="exp.title">опыт</span></h3>
+          <div class="carts__stack"></div>
+          <p class="mono carts__hint" data-i18n="exp.hint">наведи или нажми на картридж</p>
+        </div>
+        <div class="keys">
+          <h3 class="block-k mono"><i>02</i><span data-i18n="tools.title">инструменты</span></h3>
+          <div class="keys__screen mono"><span class="js-type"></span><i class="caret"></i></div>
+          <div class="keys__board"></div>
+        </div>
+      </div>
+
+      <div class="services">
+        <h3 class="block-k mono"><i>03</i><span data-i18n="serv.title">чем могу помочь</span></h3>
+        <ol class="services__list"></ol>
+      </div>
+    </section>
+
+    <!-- Контакты: чек печатается при прокрутке -->
+    <footer class="contact" id="contact">
+      <div class="contact__left">
+        <h2 class="contact__title" data-i18n="contact.title">Напишите мне</h2>
+        <a class="contact__mail js-mail"></a>
+        <div class="contact__btns">
+          <button class="btn js-copy" type="button" data-i18n="contact.copy">скопировать почту</button>
+          <a class="btn btn--solid js-tg-btn" target="_blank" rel="noopener">Telegram ↗</a>
+          <a class="btn js-phone"></a>
+        </div>
+        <p class="mono contact__note" data-i18n="contact.note">работаю удалённо · быстрее всего — в Telegram</p>
+      </div>
+      <div class="receipt-wrap"><div class="receipt" aria-label="Чек с контактами"></div></div>
+      <div class="contact__foot mono">
+        <span>© <span class="js-year"></span> <span class="js-name-plain"></span></span>
+        <span data-i18n="foot.made">сайт собран кодом вместе с ИИ</span>
+        <a href="#top" data-i18n="foot.up">наверх ↑</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Консоль-просмотрщик (из варианта Б): ◀▶ листать, A — во весь экран, B — звук -->
+  <div class="viewer" role="dialog" aria-modal="true" aria-label="Просмотр работы" hidden>
+    <div class="viewer__inner">
+      <div class="device">
+        <div class="device__top"><span class="px">MOTION&nbsp;BOY</span><i class="device__led"></i></div>
+        <div class="device__screen">
+          <video class="device__video" playsinline preload="metadata"></video>
+          <div class="device__crt" aria-hidden="true"></div>
+          <div class="device__osd px"><span class="js-v-num">01/08</span><span class="js-v-snd">♪ ВКЛ</span></div>
+          <div class="device__bar"><i></i></div>
+        </div>
+        <div class="device__pad">
+          <div class="dpad">
+            <button data-k="up" aria-label="Предыдущая"></button>
+            <button data-k="left" aria-label="Предыдущая"></button>
+            <button data-k="right" aria-label="Следующая"></button>
+            <button data-k="down" aria-label="Следующая"></button>
+            <i></i>
+          </div>
+          <div class="ab">
+            <button class="ab__b px" data-k="b" aria-label="Звук">B</button>
+            <button class="ab__a px" data-k="a" aria-label="Во весь экран">A</button>
+          </div>
+        </div>
+        <div class="device__legend px"><span>◀▶</span><span>A&nbsp;<span data-i18n="v.full">экран</span></span><span>B&nbsp;<span data-i18n="v.sound">звук</span></span></div>
+      </div>
+      <aside class="viewer__info">
+        <p class="mono viewer__meta"><span class="js-v-tag"></span> · <span class="js-v-year"></span><span class="ai-badge js-v-ai" hidden data-i18n="ai">ИИ-генерация</span></p>
+        <h3 class="viewer__title js-v-title"></h3>
+        <p class="viewer__about js-v-about"></p>
+        <p class="mono viewer__tools js-v-tools"></p>
+        <div class="viewer__nav">
+          <button class="btn btn--icon" data-k="left" type="button" aria-label="Предыдущая">←</button>
+          <button class="btn btn--icon" data-k="right" type="button" aria-label="Следующая">→</button>
+        </div>
+      </aside>
+    </div>
+    <button class="btn viewer__close mono" type="button"><span data-i18n="v.close">закрыть</span> ✕</button>
+  </div>
+
+  <div class="lightbox" hidden><img alt=""><p class="mono"></p><button class="btn lightbox__close mono" type="button" aria-label="Закрыть">✕</button></div>
+
+
+  <script src="content.js"></script>
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/three.min.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/badge.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/works.js"></script>
+  <script src="js/cases.js"></script>
+  <script src="assets/me.js"></script>
+  <script src="js/about.js"></script>
+</body>
+</html>
